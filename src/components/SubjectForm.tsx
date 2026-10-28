@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Subject } from '../types';
-import { GRADES } from '../utils/gradeCalculations';
+import { GRADES, GRADE_SCALE } from '../utils/gradeCalculations';
 import { X, Save, Plus } from 'lucide-react';
 
 interface SubjectFormProps {
