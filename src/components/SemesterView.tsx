@@ -28,18 +28,24 @@ export function SemesterView({
   const totalCredits = subjects.reduce((sum, subject) => sum + subject.creditHours, 0);
   const gpaStatus = getGPAStatus(gpa);
 
-  const handleSave = (subjectData: Omit<Subject, 'id' | 'createdAt' | 'updatedAt'>) => {
-    if (editingSubject) {
-      onEditSubject({
-        ...editingSubject,
-        ...subjectData,
-        updatedAt: new Date(),
-      });
-    } else {
-      onAddSubject(subjectData);
+  const handleSave = async (subjectData: Omit<Subject, 'id' | 'createdAt' | 'updatedAt'>) => {
+    try {
+      if (editingSubject) {
+        await onEditSubject({
+          ...editingSubject,
+          ...subjectData,
+          updatedAt: new Date(),
+        });
+      } else {
+        await onAddSubject(subjectData);
+      }
+
+      setShowForm(false);
+      setEditingSubject(undefined);
+    } catch (error) {
+      console.error('Failed to save subject:', error);
+      alert('Failed to save subject. Your data was not lost, and you can try again.');
     }
-    setShowForm(false);
-    setEditingSubject(undefined);
   };
 
   const handleEdit = (subject: Subject) => {
