@@ -83,11 +83,19 @@ function AppContent() {
     }
   };
 
+  const generateSubjectId = () => {
+    if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
+      return crypto.randomUUID();
+    }
+
+    return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  };
+
   const addSubject = async (subjectData: Omit<Subject, 'id' | 'createdAt' | 'updatedAt'>) => {
     try {
       const subject: Subject = {
         ...subjectData,
-        id: Date.now().toString(),
+        id: generateSubjectId(),
         createdAt: new Date(),
         updatedAt: new Date(),
       };
